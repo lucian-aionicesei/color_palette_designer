@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,83 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <div class="color-palette-picker">
+        <div class="user-iput-interface">
+            <label for="harmonies">Choose harmony<select id="harmonies" name="harmonies-options">
+                    <option value="analogous">Analogous</option>
+                    <option value="monochromatic">Monochromatic</option>
+                    <option value="triad">Triad</option>
+                    <option value="complementary">Complementary</option>
+                    <option value="compound">Compound</option>
+                    <option value="shades">Shades</option>
+                </select>
+            </label>
+            <label for="color_selector" class="selector_label">Pick your color<input type="color" name="color_selector" id="color_selector">
+            </label>
+        </div>
+        <div class="color-palette">
+            <div class="color-tile" id="color0">
+                <div class="color-display"></div>
+                <div class="color-codes">
+                    <p>HEX:</p>
+                    <p class="hex_code"></p>
+                    <p>RGB:</p>
+                    <p class="rgb_code"></p>
+                    <p>HSL:</p>
+                    <p class="hsl_code"></p>
+                </div>
+            </div>
+            <div class="color-tile" id="color1">
+                <div class="color-display">
+
+                </div>
+                <div class="color-codes">
+                    <p>HEX:</p>
+                    <p class="hex_code"></p>
+                    <p>RGB:</p>
+                    <p class="rgb_code"></p>
+                    <p>HSL:</p>
+                    <p class="hsl_code"></p>
+                </div>
+            </div>
+            <div class="color-tile" id="color2">
+                <div class="color-display"><div class="arrow-up"></div></div>
+                <div class="color-codes">
+                    <p>HEX:</p>
+                    <p class="hex_code"></p>
+                    <p>RGB:</p>
+                    <p class="rgb_code"></p>
+                    <p>HSL:</p>
+                    <p class="hsl_code"></p>
+                </div>
+            </div>
+            <div class="color-tile" id="color3">
+                <div class="color-display"></div>
+                <div class="color-codes">
+                    <p>HEX:</p>
+                    <p class="hex_code"></p>
+                    <p>RGB:</p>
+                    <p class="rgb_code"></p>
+                    <p>HSL:</p>
+                    <p class="hsl_code"></p>
+                </div>
+            </div>
+            <div class="color-tile" id="color4">
+                <div class="color-display"></div>
+                <div class="color-codes">
+                    <p>HEX:</p>
+                    <p class="hex_code"></p>
+                    <p>RGB:</p>
+                    <p class="rgb_code"></p>
+                    <p>HSL:</p>
+                    <p class="hsl_code"></p>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
+
 </html>
