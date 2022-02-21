@@ -51,14 +51,29 @@ let allColors = [{
 
 const Color = {
     hex: "",
-    rgb: {r: "", g: "", b: ""},
-    hsl: {h: "", s: "", l: ""}
+    rgb: {
+        r: "",
+        g: "",
+        b: ""
+    },
+    hsl: {
+        h: "",
+        s: "",
+        l: ""
+    }
 }
 
 function init() {
     console.log("Ready");
     showColor();
     document.querySelector("#color_selector").addEventListener('input', showColor);
+    document.querySelector("#harmonies").addEventListener('input', showColor);
+}
+
+function generateRandomColor() {
+
+    /////////////// To Do ///////////////////
+
 }
 
 function getColor() {
@@ -74,17 +89,6 @@ function getHarmony() {
 }
 
 function showColor() {
-
-    // getHarmony();
-    // document.querySelector("#harmonies").addEventListener('input', getHarmony)
-    // let hexString = getColor();
-    // let rgbValue = hexToRGB(hexString);
-    // let hexValue = rgbToHEX(rgbValue);
-    // let hslValue = rgbToHSL(rgbValue);
-    // displayColor(hexValue);
-    // showHexColor(hexValue);
-    // showRBGColor(rgbValue);
-    // showHSLColor(hslValue);
 
     // Get harmony
     let harmonyValue = getHarmony();
@@ -283,7 +287,11 @@ function hslToRGB(hslObject) {
     b = Math.round((b + m) * 255);
 
     // console.log("hslToRGB works");
-    return {r, g, b};
+    return {
+        r,
+        g,
+        b
+    };
 }
 
 function paletteGenerator(harmony, hslValue) {
@@ -291,6 +299,16 @@ function paletteGenerator(harmony, hslValue) {
 
     if (harmony == "analogous") {
         generateAnalogous(hslValue);
+    } else if (harmony == "monochromatic") {
+        generateMonochromatic(hslValue);
+    } else if (harmony == "triad") {
+        generateTriad(hslValue);
+    } else if (harmony == "complementary") {
+        generateComplementary(hslValue);
+    } else if (harmony == "compound") {
+        generateCompound(hslValue);
+    } else {
+        generateShades(hslValue);
     }
 
     // console.log(hslToRGB(allColors[0].hsl));
@@ -305,11 +323,11 @@ function paletteGenerator(harmony, hslValue) {
 function generateAnalogous(hslValue) {
     // console.log(hslValue);
     // console.log(allColors);
-    allColors[0].hsl.h = hslValue.h + 10;
+    allColors[0].hsl.h = limit(hslValue.h + 20, 360);
     allColors[0].hsl.s = hslValue.s;
     allColors[0].hsl.l = hslValue.l;
 
-    allColors[1].hsl.h = hslValue.h - 10;
+    allColors[1].hsl.h = limit(hslValue.h - 15, 360);
     allColors[1].hsl.s = hslValue.s;
     allColors[1].hsl.l = hslValue.l;
 
@@ -317,11 +335,137 @@ function generateAnalogous(hslValue) {
     allColors[2].hsl.s = hslValue.s;
     allColors[2].hsl.l = hslValue.l;
 
-    allColors[3].hsl.h = hslValue.h + 20;
+    allColors[3].hsl.h = limit(hslValue.h + 40, 360);
     allColors[3].hsl.s = hslValue.s;
     allColors[3].hsl.l = hslValue.l;
 
-    allColors[4].hsl.h = hslValue.h - 20;
+    allColors[4].hsl.h = limit(hslValue.h - 30, 360);
     allColors[4].hsl.s = hslValue.s;
     allColors[4].hsl.l = hslValue.l;
+}
+
+function generateMonochromatic(hslValue) {
+    allColors[0].hsl.h = hslValue.h;
+    allColors[0].hsl.s = clamp(hslValue.s + 20);
+    allColors[0].hsl.l = clamp(hslValue.l + 15);
+
+    allColors[1].hsl.h = hslValue.h;
+    allColors[1].hsl.s = clamp(hslValue.s + 10);
+    allColors[1].hsl.l = clamp(hslValue.l + 5);
+
+    allColors[2].hsl.h = hslValue.h;
+    allColors[2].hsl.s = hslValue.s;
+    allColors[2].hsl.l = hslValue.l;
+
+    allColors[3].hsl.h = hslValue.h;
+    allColors[3].hsl.s = clamp(hslValue.s + 5);
+    allColors[3].hsl.l = clamp(hslValue.l - 10);
+
+    allColors[4].hsl.h = hslValue.h;
+    allColors[4].hsl.s = clamp(hslValue.s - 15);
+    allColors[4].hsl.l = clamp(hslValue.l - 15);
+}
+
+function generateTriad(hslValue) {
+    allColors[0].hsl.h = limit(hslValue.h + 240, 360);
+    allColors[0].hsl.s = clamp(hslValue.s - 5);
+    allColors[0].hsl.l = hslValue.l;
+
+    allColors[1].hsl.h = limit(hslValue.h + 15, 360);
+    allColors[1].hsl.s = hslValue.s;
+    allColors[1].hsl.l = hslValue.l;
+
+    allColors[2].hsl.h = hslValue.h;
+    allColors[2].hsl.s = hslValue.s;
+    allColors[2].hsl.l = hslValue.l;
+
+    allColors[3].hsl.h = limit(hslValue.h + 120, 360);
+    allColors[3].hsl.s = hslValue.s;
+    allColors[3].hsl.l = clamp(hslValue.l - 5);
+
+    allColors[4].hsl.h = limit(hslValue.h + 130, 360);
+    allColors[4].hsl.s = clamp(hslValue.s + 30);
+    allColors[4].hsl.l = clamp(hslValue.l + 10);
+}
+
+function generateComplementary(hslValue) {
+
+    allColors[0].hsl.h = limit(hslValue.h + 20, 360);
+    allColors[0].hsl.s = hslValue.s;
+    allColors[0].hsl.l = clamp(hslValue.l - 5);
+
+    allColors[1].hsl.h = limit(hslValue.h - 15, 360);
+    allColors[1].hsl.s = clamp(hslValue.s - 10);
+    allColors[1].hsl.l = hslValue.l;
+
+    allColors[2].hsl.h = hslValue.h;
+    allColors[2].hsl.s = hslValue.s;
+    allColors[2].hsl.l = hslValue.l;
+
+    allColors[3].hsl.h = limit(hslValue.h + 170, 360);
+    allColors[3].hsl.s = clamp(hslValue.s - 30);
+    allColors[3].hsl.l = hslValue.l;
+
+    allColors[4].hsl.h = limit(hslValue.h + 180, 360);
+    allColors[4].hsl.s = hslValue.s;
+    allColors[4].hsl.l = hslValue.l;
+}
+
+function generateCompound(hslValue) {
+
+    allColors[0].hsl.h = limit(hslValue.h + 20, 360);
+    allColors[0].hsl.s = clamp(hslValue.s - 5);
+    allColors[0].hsl.l = clamp(hslValue.l + 5);
+
+    allColors[1].hsl.h = limit(hslValue.h + 170, 360);
+    allColors[1].hsl.s = clamp(hslValue.s - 30);
+    allColors[1].hsl.l = hslValue.l;
+
+    allColors[2].hsl.h = hslValue.h;
+    allColors[2].hsl.s = hslValue.s;
+    allColors[2].hsl.l = hslValue.l;
+
+    allColors[3].hsl.h = limit(hslValue.h - 10, 360);
+    allColors[3].hsl.s = clamp(hslValue.s - 30);
+    allColors[3].hsl.l = hslValue.l;
+
+    allColors[4].hsl.h = limit(hslValue.h + 180, 360);
+    allColors[4].hsl.s = hslValue.s;
+    allColors[4].hsl.l = hslValue.l;
+}
+
+function generateShades(hslValue) {
+
+    allColors[0].hsl.h = hslValue.h;
+    allColors[0].hsl.s = hslValue.s;
+    allColors[0].hsl.l = clamp(hslValue.l + 10);
+
+    allColors[1].hsl.h = hslValue.h;
+    allColors[1].hsl.s = hslValue.s;
+    allColors[1].hsl.l = clamp(hslValue.l + 20);
+
+    allColors[2].hsl.h = hslValue.h;
+    allColors[2].hsl.s = hslValue.s;
+    allColors[2].hsl.l = hslValue.l;
+
+    allColors[3].hsl.h = hslValue.h;
+    allColors[3].hsl.s = hslValue.s;
+    allColors[3].hsl.l = clamp(hslValue.l - 5);
+
+    allColors[4].hsl.h = hslValue.h;
+    allColors[4].hsl.s = hslValue.s;
+    allColors[4].hsl.l = clamp(hslValue.l - 15);
+}
+
+function clamp(value, max = 100, min = 0) {
+    if (value < min) {
+        value = min;
+    } else if (value > max) {
+        value = max;
+    }
+    return value;
+}
+
+function limit(value, max) {
+    return (max + value) % max;
 }
